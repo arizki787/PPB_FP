@@ -36,7 +36,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Our Menu"
-        android:outlineAmbientShadowColor="@color/black"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -44,11 +43,24 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="16dp" />
 
-    <!-- Vertical Scroll for Menu Cards -->
+    <!-- Total Points -->
+    <TextView
+        android:id="@+id/totalPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Points: 0"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/ourMenuTitle"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- ScrollView with Menu Cards -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ourMenuTitle"
+        android:layout_below="@id/totalPoints"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp">
 
@@ -60,8 +72,8 @@
             android:gravity="center_horizontal">
 
             <!-- Espresso -->
-            <!-- Espresso -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/espressoCard"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"
@@ -92,6 +104,7 @@
 
             <!-- Blended -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/blendedCard"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"
@@ -122,6 +135,7 @@
 
             <!-- Brew Coffee -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/brewCoffeeCard"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"
@@ -152,6 +166,7 @@
 
             <!-- Others -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/othersCard"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"

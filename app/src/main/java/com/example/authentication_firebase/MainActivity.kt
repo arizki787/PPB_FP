@@ -2,50 +2,71 @@ package com.example.authentication_firebase
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.authentication_firebase.databinding.ActivityMainBinding
-import com.example.authentication_firebase.ui.theme.AuthenticationfirebaseTheme
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
-    lateinit var binding: ActivityMainBinding
-    lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi FirebaseAuth
+        auth = FirebaseAuth.getInstance()
+
+        // Tombol untuk pindah ke halaman SignUp
         binding.signupTv.setOnClickListener {
-            var intent = Intent(this@MainActivity, SignUpActivity::class.java)
+            val intent = Intent(this@MainActivity, SignUpActivity::class.java)
             startActivity(intent)
         }
 
+        // Tombol login
         binding.btnLogin.setOnClickListener {
-            if (binding.emailET.text.toString().isEmpty()) {
+            val email = binding.emailET.text.toString().trim()
+            val password = binding.passET.text.toString().trim()
+
+            // ... (kode validasi Anda sudah benar, tidak perlu diubah)
+            if (email.isEmpty()) {
                 binding.emailLayout.error = "Enter Email"
+                return@setOnClickListener
+            } else {
+                binding.emailLayout.error = null
             }
-            else if (binding.passET.text.toString().isEmpty()) {
+
+            if (password.isEmpty()) {
                 binding.passLayout.error = "Enter Password"
+                return@setOnClickListener
+            } else {
+                binding.passLayout.error = null
             }
-            else {
-                auth.signInWithEmailAndPassword(binding.emailET.text.toString(), binding.passET.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        var intent = Intent(this@MainActivity, HomeScreen::class.java)
+
+            // Proses login
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+
+                        // 1. Dapatkan UID pengguna yang sedang login
+                        val userId = auth.currentUser?.uid
+
+                        // 2. Buat Intent dan sisipkan UID sebagai "extra"
+                        val intent = Intent(this@MainActivity, HomeScreen::class.java)
+                        intent.putExtra("USER_ID", userId)
+
                         startActivity(intent)
+                        finish() // menutup MainActivity
+                        // =======================================================
+
+                    } else {
+                        Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
-            }
         }
     }
 }

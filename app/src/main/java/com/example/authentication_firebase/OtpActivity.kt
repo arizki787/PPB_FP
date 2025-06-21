@@ -125,7 +125,7 @@ class OtpActivity : AppCompatActivity() {
     }
     fun random(){
         random=Random.nextInt(from = 100000, until = 1000000)
-        var mail=SendMail("[]","[]",email,"Login Signup app's OTP",
+        var mail=SendMail("adityarizkimuhammad25@gmail.com","kmhs jiwu jdav bgok",email,"Login Signup app's OTP",
             "Your OTP is -> $random")
         mail.execute()
     }
